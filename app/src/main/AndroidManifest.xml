@@ -3,8 +3,10 @@
     package="repos.git.com.gitrepos" >
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
+        android:name=".GitReposApp"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -20,7 +22,7 @@
         </activity>
         <activity
             android:name=".RepoDetailsActivity"
-            android:label="@string/title_activity_repo_details" >
+            android:label="@string/app_name" >
         </activity>
     </application>
 

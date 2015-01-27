@@ -10,8 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.androidquery.AQuery;
@@ -39,6 +41,8 @@ public class ReposFragment extends Fragment implements AdapterView.OnItemClickLi
     public static final String EXTRA_REPO = "REPO";
     public static final String EXTRA_POSITION = "POSITION";
 
+    private RelativeLayout noConnectionLayout;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,7 +51,18 @@ public class ReposFragment extends Fragment implements AdapterView.OnItemClickLi
 
         reposLV = (ListView) view.findViewById(R.id.reposLV);
         progress = (ProgressBar) view.findViewById(R.id.progress);
+
+        noConnectionLayout = (RelativeLayout) view.findViewById(R.id.noConnectionLayout);
+        Button retryBT = (Button) noConnectionLayout.findViewById(R.id.retryBT);
+        retryBT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initRepos();
+            }
+        });
+
         initRepos();
+
 
         return view;
     }
@@ -67,8 +82,14 @@ public class ReposFragment extends Fragment implements AdapterView.OnItemClickLi
     }
 
     private void initRepos(){
-        String url = Api.REPOS_URL;
-        aQuery.ajax(url, JSONArray.class, this, "reposCallback");
+        if (GitReposApp.haveInternet()) {
+            noConnectionLayout.setVisibility(View.GONE);
+            progress.setVisibility(View.VISIBLE);
+            String url = Api.REPOS_URL;
+            aQuery.ajax(url, JSONArray.class, this, "reposCallback");
+        } else {
+            noConnectionLayout.setVisibility(View.VISIBLE);
+        }
     }
 
     public void reposCallback(String url, JSONArray array, AjaxStatus ajaxStatus){

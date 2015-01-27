@@ -81,6 +81,7 @@ public class RepoDetailsFragment extends Fragment {
         if(array != null && array.length() > 0){
             contributors = ReposHelper.parseContributors(array);
             contributorsLV.setAdapter(new ContributorsAdapter());
+            aQuery.id(R.id.progressBar).visibility(View.GONE);
         }
     }
 

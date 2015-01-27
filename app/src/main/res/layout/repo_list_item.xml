@@ -10,5 +10,7 @@
         android:layout_height="50dp"
         android:gravity="center_vertical"
         android:text="Large Text"
+        android:textColor="@color/repo_text_color"
+        android:textStyle="bold"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 </LinearLayout>
